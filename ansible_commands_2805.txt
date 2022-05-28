@@ -1,0 +1,84 @@
+[ansible@ansible tmp]$ cat first.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: install package
+    yum: name=tomcat state=present
+    tags: test
+  - name: install git package
+    yum: name=git state=present
+    ignore_errors: yes
+    tags: amit
+  - name: start the service
+    service: name=tomcat state=started
+    tags: test
+[ansible@ansible tmp]$ cat second.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: transfer the script file
+    copy: src=/tmp/test.sh dest=/tmp
+  - name: execute the script
+    command: sh /tmp/test.sh
+[ansible@ansible tmp]$ cat third.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: capture free space
+    shell: df -k /tmp --output\=avail | tail -1
+    register: freespace_tmp
+  - name: clean space
+    shell: '> /tmp/test.sh'
+    when: freespace_tmp < 100000
+[ansible@ansible tmp]$ cat fourth.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: replace content of file
+    replace: dest=/tmp/a.txt regexp=fri replace=thursday
+
+
+ad-hoc commands
+
+3  ssh-copy-id -i ansible@34.68.54.149
+    4  ssh 'ansible@34.68.54.149'
+    5  ssh-copy-id -i ansible@35.184.49.184
+    6  cd /etc/ansible
+    7  ls
+    8  vi ansible.cfg 
+    9  sudo vi hosts
+   10  cd ~/.ssh
+   11  ls -lrt
+   12  cd /etc/ansible/
+   13  cat hosts 
+   14  ansible-doc
+   15  ansible-doc -l
+   16  ansible-doc -l | wc -l
+   17  ansible-doc -l | grep ping
+   18  ansible-doc ping
+   19  ansible -m ping webservers
+   20  ansible -m ping webservers --limit 34.68.54.149
+   21  ansible -m command -a uptime webservers
+   22  ansible -m command -a "df -kh /" webservers
+   23  ansible -m yum -a "name=httpd start=present" webservers
+   24  ansible -m yum -a "name=httpd state=present" webservers
+   25  ansible -m yum -a "name=httpd state=present" webservers --become
+   26  ansible -m yum -a "name=httpd state=absent" webservers --become
+   27  ansible -m yum -a "name=httpd state=present" webservers --become
+   28  ansible -m service -a "name=httpd state=started" webservers --become
+   29  cd /tmp
+   30  vi a.txt
+   31  ansible -m copy -a "src=/tmp/a.txt dest=/tmp/a.txt" webservers
+   32  ansible -m setup webservers
+   33  ansible -m setup -a "filter=*user*" webservers
+   34  ansible -m service -a "name=httpd state=stopped" webservers --become -vvv
+   35  ansible -m service -a "name=httpd state=restart" webservers --become -vvv
+   36  ansible -m service -a "name=httpd state=restarted" webservers --become -vvv
