@@ -1,0 +1,63 @@
+[root@master ansible]# cat first.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: add some content
+    lineinfile: dest=/tmp/a.txt insertafter=4000 line=5000 state=absent
+[root@master ansible]# cat second.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: find uptime
+    command: uptime
+    register: up
+  - name: write output to a file
+    lineinfile: dest=/tmp/up.txt create=yes line="{{up.stdout}}"
+    delegate_to: 127.0.0.1
+[root@master ansible]# cat third.yml 
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: install package tomcat
+    yum: name=tomcat state=present
+  - name: start the service
+    service: name=tomcat state=started
+  - name: copy the file
+    copy: src=/tmp/sample.war dest=/usr/share/tomcat/webapps
+    notify: restart tomcat
+  handlers:
+  - name: restart tomcat
+    service: name=tomcat state=restarted
+[root@master ansible]# cat fourth.yml 
+---
+- hosts: edureka
+  become: true
+  become_user: root
+  vars:
+   src_path: /tmp/index.html
+   dest_path: /var/www/html/index.html
+  tasks:
+  - name: install httpd package
+    yum: name=httpd state=present
+  - name: start the service
+    service: name=httpd state=started
+  - name: copy the file
+    copy: src={{src_path}} dest={{dest_path}}
+    notify: restart httpd
+  handlers:
+  - name: restart httpd
+    service: name=httpd state=restarted
+[root@master ansible]# cat fifth.yml 
+---
+- hosts: edureka
+  become: true
+  become_user: root
+  roles:
+  - geerlingguy.java
+  - geerlingguy.jenkins 
