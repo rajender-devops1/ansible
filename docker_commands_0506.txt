@@ -1,0 +1,111 @@
+ yum install -y docker
+    3  service docker start
+    4  ip a
+    5  docker run -itd nginx
+    6  docker ps
+    7  docker inspect c7083bca9188
+    8  docker network ls
+    9  docker run -itd --net host --name edureka httpd
+   10  docker ps
+   11  docker run -itd --name edureka1 httpd
+   12  docker ps
+   13  docker run -itd --net host --name edureka2 httpd
+   14  docker ps -a
+   15  docker logs 8d2f829cb624
+   16  docker network ls
+   17  docker run -itd --net none nginx
+   18  docker ps
+   19  docker inspect bbe0d945e66c
+   20  docker network ls
+   21  docker network create amit --driver bridge
+   22  docker network ls
+   23  ip a
+   24  docker run -itd --net amit nginx
+   25  docker ps
+   26  docker inspect 5e7cb1f89d43
+   27  docker network create rajender --driver bridge
+   28  ip a
+   29  docker run -itd --net rajender nginx
+   30  docker ps
+   31  docker inspect 9fd348da50ed
+   32  docker swarm init
+   33  docker node ls
+   34  docker info
+   35  docker service create --name svc1 --replicas 4 -p 1234:80 nginx
+   36  docker service ls
+   37  docker service ps svc1
+   38  docker service ps svc1
+   39  docker service ps svc1
+   40  docker service scale svc1=10
+   41  docker service ps svc1
+   42  docker service scale svc1=5
+   43  docker service ps svc1
+   44  docker service ps svc1
+   45  docker node ls
+   46  docker ps
+   47  curl ifconfig.co
+   48  docker inspect 131155c782fb
+   49  docker ps
+   50  docker service ls
+   51  clear
+   52  docker service ls
+   53  docker service create --name doris --mode global -p 3456:80 nginx
+   54  docker node ls
+   55  docker service ls
+   56  docker service ps doris
+   57  docker service ls
+   58  docker node ls
+   59  docker service ls
+   60  docker swarm join-token worker
+   61  docker node ls
+   62  hostname -i
+   63  docker inspect jreuenlz4m4pp8xthcfc1p017
+   64  docker inspect xkt26xiyec1phg3vqhn02d2in
+   65  docker service create --name suresh --replicas 4 --constraint node.role==worker nginx
+   66  docker service ls
+   67  docker service ps suresh
+   68  docker node ls
+   69  docker node update --label-add app=abc jreuenlz4m4pp8xthcfc1p017
+   70  docker node update --label-add app=abc xkt26xiyec1phg3vqhn02d2in
+   71  docker inspect xkt26xiyec1phg3vqhn02d2in
+   72  docker service create --name india --replicas 4 --constraint node.labels.app==abc nginx
+   73  docker service ls
+   74  docker service ps india
+   75  docker service ls
+   76  docker service update --image httpd suresh
+   77  docker service ls
+   78  docker service ps suresh
+   79  docker node ls
+   80  docker node update --availability drain jreuenlz4m4pp8xthcfc1p017
+   81  docker node ls
+   82  docker service ls
+   83  docker service ps 13xvx2rjiz9p
+   84  docker node ls
+   85  docker node update --availability active jreuenlz4m4pp8xthcfc1p017
+   86  docker node ls
+   87  docker service ls
+   88  docker service rm 3ek6mfnzd4lf
+   89  docker service ls
+   90  docker swarm update --autolock=true
+   91  docker node ls
+   92  service docker restart
+   93  docker node ls
+   94  docker ps
+   95  socker service ls
+   96  docker service ls
+   97  docker swarm unlock
+   98  docker service ls
+   99  docker network ls
+  100  docker run -itd -P -v vol1:/usr/local/tomcat/logs tomcat
+  101  docker volume ls
+  102  docker inspect volume vol1
+  103  docker inspect vol1
+  104  cd /var/lib/docker/volumes/vol1/_data
+  105  ls -lrt
+  106  docker p
+  107  docker ps
+  108  docker exec -it b9d72deeb117 /bin/bash
+  109  pwd
+  110  ls -lrt
+  111  rm -rf catalina.2022-06-05.log 
+  112  docker exec -it b9d72deeb117 /bin/bas
