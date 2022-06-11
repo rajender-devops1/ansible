@@ -1,0 +1,168 @@
+506  kubectl get nodes -o wide
+  507  kubectl run pod1 --image nginx
+  508  kubectl get pods
+  509  kubectl describe pod pod1
+  510  kubectl get pods -o wide
+  511  kubectl exec -it pod1 --bash
+  512  kubectl exec -it pod1 -- bash
+  513  kubectl get pods -o wide
+  514  kubectl edit pod pod1
+  515  kubectl get pods -o wide
+  516  kubectl describe pod pod1
+  517  kubectl top pod
+  518  kubectl top pod -o wide
+  519  kubectl top pod
+  520  kubectl top pod --containers
+  521  kubectl logs pod1
+  522  kubectl logs -f pod1
+  523  kubectl get pods
+  524  kubectl run pod2 --image nginx
+  525  kubectl run pod3 --image nginx
+  526  kubectl get pods
+  527  kubectl delete pod pod2
+  528  kubectl get pods
+  529  cd /tmp
+  530  vi a.yml
+  531  kubectl apply -f a.yml
+  532  vi a.yml
+  533  kubectl apply -f a.yml
+  534  kubectl get pods
+  535  kubectl describe pod doris
+  536  ls
+  537  vi b.yml
+  538  kubectll apply -f b.yml
+  539  kubectl apply -f b.yml
+  540  kubectl get pods
+  541  kubectl describe pod vivek
+  542  kubectl get pods
+  543  kubectl logs vivek
+  544  kubectl logs -c sarika vivek
+  545  kubectl top pods
+  546  kubectl top pods --containers
+  547  vi c.yml
+  548  kubectl apply -f c.yml
+  549  kubectl describe pod amit
+  550  cat c.yml
+  551  vi d.yml
+  552  cat d.yml
+  553  kubectl apply -f d.yml
+  554  kubectl get pods
+  555  ls
+  556  vi e.yml
+  557  kubectl apply -f e.yml
+  558  kubectl get pods --show-labels
+  559  ls
+  560  vi f.yml
+  561  kubectl apply -f f.yml
+  562  kubectl get pods
+  563  kubectl get pods -l app=abc
+  564  kubectl get namespaces
+  565  kubectl get pods
+  566  kubectl get pods --namespace=kube-system
+  567  kubectl get pods
+  568  kubectl get pods --namespace=kube-system
+  569  kubectl create namespace vivek
+  570  kubectl get namespaces
+  571  kubectl run test --image nginx --namespace vivek
+  572  kubectl get pods
+  573  kubectl get pods --namespace=vivek
+  574  vi namespace.yml
+  575  kubectl apply -f namespace.yml
+  576  kubectl get namespace
+  577  kubectl get pods
+  578  kubectl delete pod amit
+  579  kubectl get pods
+
+
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat a.yml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: doris
+spec:
+ containers:
+  - name: harsha
+    image: httpd
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat b.yml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: vivek
+spec:
+ containers:
+  - name: harsha
+    image: httpd
+  - name: sarika
+    image: tomcat
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat c.yml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: amit
+spec:
+ containers:
+  - name: harsha
+    image: httpd
+    ports:
+     - containerPort: 80
+  - name: sarika
+    image: tomcat
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat d.yml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: amit1
+spec:
+ containers:
+  - name: harsha
+    image: httpd
+    ports:
+     - containerPort: 80
+  - name: sarika
+    image: tomcat
+    ports:
+     - containerPort: 8080
+  - name: randy
+    image: nginx
+    ports:
+     - containerPort: 80
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat e.yml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: amit2
+ labels:
+  app: abc
+  teach: edureka
+spec:
+ containers:
+  - name: harsha
+    image: httpd
+    ports:
+     - containerPort: 80
+  - name: sarika
+    image: tomcat
+    ports:
+     - containerPort: 8080
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat f.yml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: amit3
+ labels:
+  app: abc
+spec:
+ containers:
+  - name: harsha
+    image: httpd
+    ports:
+     - containerPort: 80
+  - name: sarika
+    image: tomcat
+    ports:
+     - containerPort: 8080
+kushagra2agarwal@cloudshell:/tmp (concrete-bloom-206520)$ cat namespace.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: doris
