@@ -1,0 +1,50 @@
+sudo amazon-linux-extras install docker
+yum install docker -y
+systemctl status docker
+systemctl start docker
+systemctl status docker
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+sudo setenforce 0
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+vim /etc/yum.repos.d/kubernetes.repo (set as repo_gpgcheck=0)
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo systemctl enable --now kubelet
+yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y containerd.io
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml
+systemctl restart containerd 
+ (echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables (on node) Run only if you get any error)
+ (Run all above commands on both and Master and Worker nodes)
+ 
+ (Below commands only on Master Node)
+ 
+hostname -i
+kubeadm init --apiserver-advertise-address=(Host Private IP) --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem
+
+--Then you can join any number of worker nodes by running the following on each as root:
+    On Worker Nodes
+Ex::kubeadm join 172.31.21.237:6443 --token 8skc3i.kc77dluaferfvm3f \
+        --discovery-token-ca-cert-hash sha256:29110827198934bc9c4016ec0b0d00253f38d972d1c333f37d0e07bf8fa2b6cf
+        
+on Master Node 
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl get nodes
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl get nodes
+history
